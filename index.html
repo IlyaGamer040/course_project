@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Supply Management</title>
+</head>
+<body>
+    <h1>Manage Suppliers</h1>
+    <form id="addSupplierForm">
+        <input type="text" name="company_name"
+        placeholder="Company Name" required>
+        <input type="text" name="contact_info"
+        placeholder="Contact Info" required>
+        <textarea name="terms_of_cooperation"
+                  placeholder="Terms of Cooperation"></textarea>
+        <input type="number" name="rating"
+        placeholder="Rating" min="1" max="5">
+        <button type="submit">Add Supplier</button>
+    </form>
+    <div id="supplierList"></div>
+    <script>
+        async function fetchSuppliers() {
+            const responce = await fetch('/suppliers');
+            const suppliers = await responce.json();
+            const supplierListDiv = document.getElementById('supplierList');
+            supplierListDiv.innerHTML = '<h2>Suppliers List</h2>' +
+                JSON.stringify(suppliers);
+        }
+
+        document.getElementById('addSupplierForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const responce = await fetch('/add_supplier', {
+                method: 'POST',
+                body: formData
+            });
+            await responce.json();
+            fetchSuppliers();
+        });
+
+        window.onload = fetchSuppliers;
+        </script>
+</body>
+</html>

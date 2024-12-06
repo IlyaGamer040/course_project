@@ -1,0 +1,9 @@
+services:
+    - type: web
+    name: supply-management
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python app.py"
+    envVars:
+        DATABASE_URL: dpg-ct9ad29opnds73e6bm0g-a
